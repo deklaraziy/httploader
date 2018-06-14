@@ -3,3 +3,4 @@ https://anarchy-linux.org/iso/anarchy-1.0.0-x86_64.iso sha1 4b6818382bc768e84277
 https://mirror.yandex.ru/archlinux/iso/2018.05.01/archlinux-2018.05.01-x86_64.iso SHA1 2adf5c728efeea60645d0c42337b033f5a68c506
 http://releases.ubuntu.com/18.04/ubuntu-18.04-desktop-amd64.iso md5 129292a182136a35e1f89c586dbac2e2
 https://download.fedoraproject.org/pub/fedora/linux/releases/28/Workstation/x86_64/iso/Fedora-Workstation-Live-x86_64-28-1.1.iso sha256 bd5c9ee34b7698eb0852a320da4fbdf616222a493d99f6054aa96afa96207bfb
+http://get.videolan.org/vlc/3.0.3/win64/vlc-3.0.3-win64.exe

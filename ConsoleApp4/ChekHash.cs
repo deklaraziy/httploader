@@ -1,32 +1,52 @@
 ﻿using System;
+using System.ComponentModel;
 using System.IO;
+using System.Net;
 using System.Security.Cryptography;
 
 namespace ConsoleApp4
 {
     class ChekHash
     {
-        public string Check(string TypeHash, string FileName, string Hash)
+        public void ProgressEvent(object sender, DownloadProgressChangedEventArgs e)
+        {
+            Console.Write("{0}    downloaded {1} of {2} bytes. {3} % complete... \r",
+        (string)e.UserState,
+        e.BytesReceived,
+        e.TotalBytesToReceive,
+        e.ProgressPercentage);
+        }
+        public void LoadCompleteEvent(object sender, AsyncCompletedEventArgs e)
+        {
+            Loader loader = sender as Loader;
+            if (loader.component.TypeHashSum == null)
+            {
+                return;
+            }
+            string ResultJfCheck = Check(loader.component.TypeHashSum, loader.component.FileOfName, loader.component.HashSum);
+            Console.WriteLine("{0} complete hash {1}", loader.component.FileOfName, ResultJfCheck);
+        }
+        private string Check(string TypeHash, string FileName, string Hash)
         {
             switch (TypeHash)
             {
                 case "sha1":
                     if (ChekHashSHA1(FileName, Hash))
-                        return "Chek hash sum sucsess!";
+                        return "OK";
                     if (!ChekHashSHA1(FileName, Hash))
-                        return "Chek hash sum faild!";
+                        return "faild!";
                     break;
                 case "md5":
                     if (ChekHashMD5(FileName, Hash))
-                        return "Chek hash sum sucsess!";
+                        return "OK";
                     if (!ChekHashMD5(FileName, Hash))
-                        return "Chek hash sum faild!";
+                        return "faild!";
                     break;
                 case "sha256":
                     if (ChekHashSHA256(FileName, Hash))
-                        return "Chek hash sum sucsess!";
+                        return "OK";
                     if (!ChekHashSHA256(FileName, Hash))
-                        return "Chek hash sum faild!";
+                        return "faild!";
                     break;
                 default:
                     return "Error chek sum select";

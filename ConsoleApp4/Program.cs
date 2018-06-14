@@ -1,7 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
-
+using System.Threading.Tasks;
+using System.Net;
+using System.ComponentModel;
 
 namespace ConsoleApp4
 {
@@ -9,34 +11,43 @@ namespace ConsoleApp4
     {
         static void Main(string[] args)
         {
-            List<DownloadComponent> DObjects = new List<DownloadComponent>();
+            List<Loader> loaders = new List<Loader>();
+            ChekHash chekHash = new ChekHash();
+            
             
             string pathInputFile = "input.txt";
             try
             {
                 using (StreamReader inread = new StreamReader(pathInputFile))
                 {
+                    int j = 0;
                     while(!inread.EndOfStream)
                     {
                         string line = inread.ReadLine();
-                        // Console.WriteLine(line);
-                        var parsing = line.Split();
-                        DObjects.Add(new DownloadComponent() { AdressUrl = parsing[0], TypeHashSum = parsing[1], HashSum = parsing[2] });
-                        
+                        if (line.Length != 0)
+                        {
+                            loaders.Add(new Loader());
+                            loaders[j].component.SetAll(line);
+                            loaders[j].StartLoad(loaders[j].component.ChkedUrlAdress, loaders[j].component.FileOfName);
+                            loaders[j].DownloadFileCompleted += new AsyncCompletedEventHandler(chekHash.LoadCompleteEvent);
+                            j++;
+                        }
                     }
-                 Console.ReadKey();
+                    
                 }
             }
             catch(Exception e)
             {
                 Console.WriteLine("File input.txt not found");
-                Console.WriteLine(e.Message);
-                Console.ReadKey();
+              //  Console.WriteLine(e.Message);
+              //  Console.ReadKey();
             }
-            foreach(var i in DObjects )
+
+            foreach (var l in loaders)
             {
-                Console.WriteLine(i.AdressUrl);
+                while (l.IsBusy) ;
             }
         }
+
     }
 }
